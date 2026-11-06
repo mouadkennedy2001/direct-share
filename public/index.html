@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مشاركة مباشرة — نقل ملفات P2P مشفّر عبر WebRTC</title>
+<meta name="description" content="أرسل ملفاتك مباشرة من جهازك إلى جهاز الطرف الآخر عبر WebRTC. الخادم للتعارف فقط، والملفات لا تمرّ به ولا تُخزَّن عليه.">
+<meta name="theme-color" content="#9dbbf8">
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- الخطوط: Inter للإنجليزية + Cairo للعربية -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/icons.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main" data-i18n="a11y.skip">تجاوز إلى المحتوى</a>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#top" aria-label="مشاركة مباشرة">
+      <span class="brand-mark"><span class="icon i-chat" aria-hidden="true"></span></span>
+      <span data-i18n="brand">مشاركة مباشرة</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" type="button" data-i18n-aria="a11y.toggleNav" aria-label="فتح القائمة" aria-expanded="false" aria-controls="nav-links">
+      <span class="icon i-menu" aria-hidden="true"></span>
+    </button>
+    <nav class="nav-links" id="nav-links" data-i18n-aria="a11y.mainNav" aria-label="التنقل الرئيسي">
+      <a href="#app" data-i18n="nav.app">التطبيق</a>
+      <a href="#security" data-i18n="nav.security">الأمان</a>
+      <a href="#features" data-i18n="nav.features">المميزات</a>
+      <a href="#how" data-i18n="nav.how">كيف يعمل</a>
+      <a href="#dev" data-i18n="nav.dev">المطوّر</a>
+      <a class="btn btn-outline btn-small nav-cta" href="#app"><span class="icon i-bolt" aria-hidden="true"></span> <span data-i18n="nav.cta">ابدأ الآن</span></a>
+      <label class="lang-switch">
+        <span class="icon i-globe" aria-hidden="true"></span>
+        <span class="sr-only" data-i18n="a11y.langLabel">اللغة</span>
+        <select id="lang-select" aria-label="Language / اللغة">
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= الهيرو ================= -->
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <p class="eyebrow"><span class="icon i-sparkles" aria-hidden="true"></span> <span data-i18n="hero.badge">WebRTC · نقل مباشر · بدون وسيط</span></p>
+      <h1 class="display" data-i18n="hero.title">أرسل الملف مباشرةً،<br>بلا وسيط.</h1>
+      <p class="lead" data-i18n="hero.lead">ملفاتك تنتقل من جهازك إلى جهاز صديقك عبر قناة مشفّرة — الخادم يعرّفكما ببعضكما فقط، ولا يرى بايتاً واحداً. بلا رفع، بلا تخزين، بلا حدود خادم.</p>
+      <div class="hero-actions">
+        <a class="btn btn-solid" href="#app"><span class="icon i-bolt" aria-hidden="true"></span> <span data-i18n="hero.ctaCreate">إنشاء غرفة الآن</span></a>
+        <a class="btn btn-ghost" href="#security"><span class="icon i-shield" aria-hidden="true"></span> <span data-i18n="hero.ctaHow">كيف نحميك؟</span></a>
+      </div>
+      <p class="hero-note"><span class="icon i-lock" aria-hidden="true"></span> <span data-i18n="hero.note">مشفّر افتراضياً (DTLS/SRTP) · لا يُخزَّن أي ملف على أي خادم</span></p>
+      <ul class="trust-list">
+        <li><span class="icon i-shield-check" aria-hidden="true"></span> <span data-i18n="hero.trust1">تشفير كامل</span></li>
+        <li><span class="icon i-database" aria-hidden="true"></span> <span data-i18n="hero.trust2">بلا تخزين</span></li>
+        <li><span class="icon i-gauge" aria-hidden="true"></span> <span data-i18n="hero.trust3">بلا حدود</span></li>
+      </ul>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-panel">
+        <div class="hero-panel-head">
+          <div>
+            <div class="hero-panel-title" data-i18n="hero.panelTitle">اتصال مباشر</div>
+            <div class="hero-panel-sub" data-i18n="hero.panelSub">جهازك ↔ جهاز الطرف الآخر</div>
+          </div>
+          <span class="icon-tile tile-solid"><span class="icon i-wifi"></span></span>
+        </div>
+        <div class="link-anim">
+          <div class="device"><span class="icon i-user"></span><strong data-i18n="hero.deviceYou">أنت</strong></div>
+          <div class="link-line"></div>
+          <div class="device"><span class="icon i-users"></span><strong data-i18n="hero.devicePeer">الطرف الآخر</strong></div>
+        </div>
+        <div class="hero-chips">
+          <span class="chip"><span class="icon i-lock"></span> <code>7a#v9*ht035v:q*</code> — <span data-i18n="hero.chipEncrypted">مشفّر طرف-لطرف</span></span>
+          <span class="chip chip-alt"><span class="icon i-bolt"></span> P2P · <code>0</code> <span data-i18n="hero.chipP2p">بايت عبر الخادم</span></span>
+        </div>
+      </div>
+      <span class="chip chip-float chip-a"><span class="icon i-fire"></span> <span data-i18n="features.f4t">تدمير ذاتي</span></span>
+      <span class="chip chip-float chip-b"><span class="icon i-key"></span> AES-256</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= الأرقام ================= -->
+<section class="stats" aria-label="أرقام سريعة">
+  <div class="container stats-grid">
+    <div class="stat"><span class="stat-v" data-i18n="stats.s1v">0</span><span class="stat-l" data-i18n="stats.s1l">بايت يمرّ عبر الخادم</span></div>
+    <div class="stat"><span class="stat-v" data-i18n="stats.s2v">AES-256</span><span class="stat-l" data-i18n="stats.s2l">تشفير اختياري للبيانات</span></div>
+    <div class="stat"><span class="stat-v" data-i18n="stats.s3v">64 KB</span><span class="stat-l" data-i18n="stats.s3l">حجم كل جزء من الملف</span></div>
+    <div class="stat"><span class="stat-v" data-i18n="stats.s4v">2</span><span class="stat-l" data-i18n="stats.s4l">طرفان في الغرفة</span></div>
+  </div>
+</section>
+
+<main id="main">
+<!-- ================= التطبيق ================= -->
+<section class="section" id="app">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow"><span class="icon i-send" aria-hidden="true"></span> <span data-i18n="nav.app">التطبيق</span></p>
+      <h2 class="heading" data-i18n="app.heading">ابدأ المشاركة</h2>
+      <p class="body-text section-sub" data-i18n="app.sub">أنشئ غرفة وشارك رابطها، أو أدخل رمز غرفة صديقك. تنتهي الجلسة تلقائياً عند مغادرة الطرفين، ولا يبقى أثر للملف على أي خادم.</p>
+    </div>
+
+    <div class="card app-card">
+      <!-- الخطوة 1: إنشاء / انضمام -->
+      <div id="step-lobby">
+        <div class="lobby-grid">
+          <div class="panel panel-mist">
+            <h3><span class="icon-tile tile-solid" aria-hidden="true"><span class="icon i-plus"></span></span> <span data-i18n="create.title">إنشاء غرفة جديدة</span></h3>
+            <label class="field"><span data-i18n="create.password">كلمة مرور الغرفة</span> <span class="optional" data-i18n="create.optional">(اختياري)</span>
+              <span class="field-row has-action">
+                <span class="icon i-key" aria-hidden="true"></span>
+                <input type="password" id="create-password" autocomplete="new-password" data-i18n-placeholder="create.passwordPh" placeholder="اتركها فارغة لغرفة مفتوحة">
+                <button class="input-action" type="button" id="toggle-create-pw" data-i18n-aria="a11y.showPassword" aria-label="إظهار كلمة المرور" aria-pressed="false"><span class="icon i-eye" aria-hidden="true"></span></button>
+              </span>
+            </label>
+            <label class="check"><input type="checkbox" id="opt-encrypt" checked> <span data-i18n="create.encrypt">تشفير إضافي AES-256 قبل الإرسال (E2E)</span></label>
+            <label class="check"><input type="checkbox" id="opt-burn"> <span data-i18n="create.burn">تدمير ذاتي بعد اكتمال التحميل (Burn on Read)</span></label>
+            <button class="btn btn-outline" id="btn-create"><span class="icon i-plus" aria-hidden="true"></span> <span data-i18n="create.btn">إنشاء الغرفة</span></button>
+            <p class="hint"><span class="icon i-info" aria-hidden="true"></span> <span data-i18n="create.hint">يُشتق مفتاح التشفير من رمز الغرفة وكلمة المرور معاً — شاركهما مع الطرف الآخر خارج التطبيق.</span></p>
+          </div>
+          <div class="panel panel-sky">
+            <h3><span class="icon-tile" aria-hidden="true"><span class="icon i-link"></span></span> <span data-i18n="join.title">الانضمام إلى غرفة</span></h3>
+            <label class="field"><span data-i18n="join.code">رمز الغرفة</span>
+              <span class="field-row has-action">
+                <span class="icon i-hash" aria-hidden="true"></span>
+                <input type="text" id="join-code" dir="ltr" data-i18n-placeholder="join.codePh" placeholder="UUID — مثال: 550e8400-e29b-…" autocomplete="off" spellcheck="false">
+                <button class="input-action" type="button" id="btn-paste" data-i18n-aria="a11y.pasteCode" aria-label="لصق رمز الغرفة"><span class="icon i-copy" aria-hidden="true"></span></button>
+              </span>
+            </label>
+            <label class="field"><span data-i18n="join.password">كلمة المرور</span> <span class="optional" data-i18n="join.optional">(إن وُجدت)</span>
+              <span class="field-row has-action">
+                <span class="icon i-lock" aria-hidden="true"></span>
+                <input type="password" id="join-password" autocomplete="current-password">
+                <button class="input-action" type="button" id="toggle-join-pw" data-i18n-aria="a11y.showPassword" aria-label="إظهار كلمة المرور" aria-pressed="false"><span class="icon i-eye" aria-hidden="true"></span></button>
+              </span>
+            </label>
+            <label class="check"><input type="checkbox" id="opt-burn-join"> <span data-i18n="join.burn">تدمير ذاتي بعد التحميل</span></label>
+            <button class="btn btn-outline" id="btn-join"><span class="icon i-arrow-right" aria-hidden="true"></span> <span data-i18n="join.btn">الانضمام</span></button>
+          </div>
+        </div>
+        <p class="error" id="lobby-error" role="alert"></p>
+      </div>
+
+      <!-- الخطوة 2: الانتظار + النقل -->
+      <div id="step-room" hidden>
+        <div class="room-head">
+          <div class="status-line">
+            <span class="status-dot" id="status-dot"></span>
+            <strong id="status-text">بانتظار الطرف الآخر…</strong>
+          </div>
+          <div class="room-code">
+            <code id="room-code" dir="ltr"></code>
+            <button class="btn btn-small" id="btn-copy"><span class="icon i-copy" aria-hidden="true"></span> <span data-i18n="room.copy">نسخ الرابط</span></button>
+            <button class="btn btn-small" id="btn-leave"><span class="icon i-leave" aria-hidden="true"></span> <span data-i18n="room.leave">مغادرة</span></button>
+          </div>
+        </div>
+
+        <div class="secret-row" id="secret-row" hidden>
+          <span class="icon i-key" aria-hidden="true"></span>
+          <div class="secret-text"><strong data-i18n="room.secretTitle">مفتاح التشفير المشترك</strong> — <span data-i18n="room.secretText">شارك هذا المفتاح مع الطرف الآخر خارج التطبيق.</span></div>
+          <code id="secret-value" dir="ltr"></code>
+          <button class="btn btn-small" id="btn-copy-secret" data-i18n-aria="a11y.copySecret" aria-label="نسخ مفتاح التشفير"><span class="icon i-copy" aria-hidden="true"></span> <span data-i18n="room.secretCopy">نسخ المفتاح</span></button>
+        </div>
+
+        <div id="dropzone" class="dropzone" tabindex="0" data-i18n-aria="room.dropAria" aria-label="اسحب الملفات هنا أو انقر للاختيار">
+          <span class="icon i-upload icon-lg" aria-hidden="true"></span>
+          <p class="dz-title" data-i18n="room.dropTitle">اسحب الملفات هنا وأفلتها</p>
+          <p class="dz-sub" data-i18n="room.dropSub">أو انقر للاختيار من جهازك — تُرسَل مباشرة إلى الطرف الآخر</p>
+          <input type="file" id="file-input" multiple hidden>
+        </div>
+
+        <ul class="file-list" id="file-list"></ul>
+        <p class="error" id="room-error" role="alert"></p>
+        <p class="hint"><span class="icon i-warning" aria-hidden="true"></span> <span data-i18n="room.ipHint">تنبيه خصوصية: WebRTC قد يكشف عنوان IP العام للطرف الآخر عبر STUN. للخصوصية القصوى شغّل خادم TURN (راجع README).</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= كيف يعمل ================= -->
+<section class="section band" id="how">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow"><span class="icon i-layers" aria-hidden="true"></span> <span data-i18n="nav.how">كيف يعمل</span></p>
+      <h2 class="heading" data-i18n="how.heading">كيف يعمل؟</h2>
+      <p class="body-text section-sub" data-i18n="how.sub">ثلاث خطوات فقط، وتبقى ملفاتك بين الجهازين من البداية إلى النهاية.</p>
+    </div>
+    <div class="steps">
+      <article class="step">
+        <span class="step-num" aria-hidden="true">01</span>
+        <span class="icon-tile tile-solid" aria-hidden="true"><span class="icon i-signal"></span></span>
+        <h3 data-i18n="how.s1t">التعارف</h3>
+        <p data-i18n="how.s1d">خادم الإشارات (Node.js + Socket.io) يتبادل فقط عروض SDP ومرشّحي ICE بين الجهازين. لا يرى الخادم أي بايت من ملفاتك.</p>
+      </article>
+      <article class="step">
+        <span class="step-num" aria-hidden="true">02</span>
+        <span class="icon-tile tile-solid" aria-hidden="true"><span class="icon i-wifi"></span></span>
+        <h3 data-i18n="how.s2t">الاتصال المباشر</h3>
+        <p data-i18n="how.s2d">يفتح المتصفحان قناة بيانات RTCDataChannel مشفّرة بـ DTLS/SRTP، ويتخطّيان NAT عبر STUN/TURN.</p>
+      </article>
+      <article class="step">
+        <span class="step-num" aria-hidden="true">03</span>
+        <span class="icon-tile tile-solid" aria-hidden="true"><span class="icon i-layers"></span></span>
+        <h3 data-i18n="how.s3t">النقل المقطّع</h3>
+        <p data-i18n="how.s3d">يُقطّع الملف إلى أجزاء 64KB وتُرسَل بالترتيب مع ضغط تلقائي عند امتلاء القناة، ثم يُعاد تجميعها والتحقق من حجمها.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= الأمان ================= -->
+<section class="section" id="security">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow"><span class="icon i-shield" aria-hidden="true"></span> <span data-i18n="nav.security">الأمان</span></p>
+      <h2 class="heading" data-i18n="security.heading">الأمان أولاً</h2>
+      <p class="body-text section-sub" data-i18n="security.sub">أربع ثغرات كلاسيكية في تطبيقات P2P — وكيف عالجناها هنا:</p>
+    </div>
+    <div class="cols-2">
+      <article class="panel panel-white sec-card">
+        <h3><span class="icon-tile" aria-hidden="true"><span class="icon i-server"></span></span> <span data-i18n="security.s1t">حقن بيانات واستهلاك الذاكرة</span></h3>
+        <p class="sec-row"><span class="tag tag-problem" data-i18n="security.problem">المشكلة</span> <span data-i18n="security.s1d">حمولة خبيثة أو تدفق ضخم يُنهك ذاكرة المتصفح (DoS).</span></p>
+        <p class="sec-row"><span class="tag tag-fix" data-i18n="security.fix">الحل</span> <span data-i18n="security.s1f">حد أقصى لحجم الملف، تحقق صارم من البيانات الوصفية وحجم كل جزء، وسقف لحمولة الإشارة في الخادم.</span> (<code id="cfg-max-size">—</code>)</p>
+      </article>
+      <article class="panel panel-white sec-card">
+        <h3><span class="icon-tile" aria-hidden="true"><span class="icon i-fingerprint"></span></span> <span data-i18n="security.s2t">تسرّب عنوان IP عبر ICE</span></h3>
+        <p class="sec-row"><span class="tag tag-problem" data-i18n="security.problem">المشكلة</span> <span data-i18n="security.s2d">STUN يكشف IP العام أو المحلي للطرف الآخر.</span></p>
+        <p class="sec-row"><span class="tag tag-fix" data-i18n="security.fix">الحل</span> <span data-i18n="security.s2f">دعم خوادم TURN لإخفاء IP وتمرير البيانات عبر وسيط آمن — يُضبط عبر متغيرات البيئة.</span></p>
+      </article>
+      <article class="panel panel-white sec-card">
+        <h3><span class="icon-tile" aria-hidden="true"><span class="icon i-eye-off"></span></span> <span data-i18n="security.s3t">هجوم الوسيط MitM</span></h3>
+        <p class="sec-row"><span class="tag tag-problem" data-i18n="security.problem">المشكلة</span> <span data-i18n="security.s3d">اعتراض إشارات Socket.io غير المشفّرة لتبديل مفاتيح التشفير.</span></p>
+        <p class="sec-row"><span class="tag tag-fix" data-i18n="security.fix">الحل</span> <span data-i18n="security.s3f">انشر عبر WSS/HTTPS + تشفير WebRTC المدمج + طبقة AES-256-GCM اختيارية بمفتاح لا يعرفه الخادم.</span></p>
+      </article>
+      <article class="panel panel-white sec-card">
+        <h3><span class="icon-tile" aria-hidden="true"><span class="icon i-shield-check"></span></span> <span data-i18n="security.s4t">اختطاف الغرفة</span></h3>
+        <p class="sec-row"><span class="tag tag-problem" data-i18n="security.problem">المشكلة</span> <span data-i18n="security.s4d">تخمين رمز غرفة قصير والدخول لسرقة الملفات.</span></p>
+        <p class="sec-row"><span class="tag tag-fix" data-i18n="security.fix">الحل</span> <span data-i18n="security.s4f">رموز UUID v4 عشوائية، كلمة مرور مجزّأة بـ scrypt، حد لمحاولات الانضمام، والغرفة تُدمَّر فور مغادرة آخر جهاز.</span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= المميزات ================= -->
+<section class="section band-mist" id="features">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow"><span class="icon i-rocket" aria-hidden="true"></span> <span data-i18n="nav.features">المميزات</span></p>
+      <h2 class="heading" data-i18n="features.heading">مميزات احترافية</h2>
+      <p class="body-text section-sub" data-i18n="features.sub">كل ما تحتاجه لنقل ملفات كبيرة بأمان وسرعة، دون أي خدمة وسيطة.</p>
+    </div>
+    <div class="cols-3">
+      <article class="panel panel-sky feature"><span class="icon-tile" aria-hidden="true"><span class="icon i-pause"></span></span><h3 data-i18n="features.f1t">إيقاف واستئناف</h3><p data-i18n="features.f1d">إيقاف مؤقت واستئناف من آخر جزء مؤكَّد (Chunk Acknowledgment) بدلاً من البدء من الصفر.</p></article>
+      <article class="panel panel-sky feature"><span class="icon-tile" aria-hidden="true"><span class="icon i-key"></span></span><h3 data-i18n="features.f2t">تشفير AES-256</h3><p data-i18n="features.f2d">تشفير كل جزء بـ AES-GCM و IV عشوائي فريد، بمفتاح مشتق من رمز الغرفة وكلمة المرور — الخادم لا يعرفه.</p></article>
+      <article class="panel panel-sky feature"><span class="icon-tile" aria-hidden="true"><span class="icon i-upload"></span></span><h3 data-i18n="features.f3t">سحب وإفلات</h3><p data-i18n="features.f3d">واجهة Drag &amp; Drop، شريط تقدّم حقيقي، سرعة نقل لحظية (MB/s) ووقت متبقٍّ محسوب.</p></article>
+      <article class="panel panel-sky feature"><span class="icon-tile" aria-hidden="true"><span class="icon i-fire"></span></span><h3 data-i18n="features.f4t">تدمير ذاتي</h3><p data-i18n="features.f4d">حذف الملف من ذاكرة الطرفين فور اكتمال التحميل — خصوصية تامة (Burn on Read).</p></article>
+      <article class="panel panel-sky feature"><span class="icon-tile" aria-hidden="true"><span class="icon i-files"></span></span><h3 data-i18n="features.f5t">قائمة ملفات</h3><p data-i18n="features.f5d">إرسال ملفات متعددة بالتسلسل في الجلسة نفسها دون إعادة اتصال.</p></article>
+      <article class="panel panel-sky feature"><span class="icon-tile" aria-hidden="true"><span class="icon i-signal"></span></span><h3 data-i18n="features.f6t">خارطة طريق</h3><p data-i18n="features.f6d">بث متعدد النظراء (Peer-to-Multipoint) وخلط شبكي (Mesh) — مسجَّلة كتوسعة مستقبلية.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= المطوّر ================= -->
+<section class="section dev-section" id="dev">
+  <div class="container">
+    <div class="dev-card">
+      <div class="dev-avatar" aria-hidden="true"><span data-i18n="dev.initials">ز.أ</span></div>
+      <div class="dev-body">
+        <p class="eyebrow"><span class="icon i-code" aria-hidden="true"></span> <span data-i18n="dev.heading">عن المطوّر</span></p>
+        <p class="dev-name" data-i18n="dev.name">زروقي أحمد معاذ</p>
+        <p class="dev-role" data-i18n="dev.role">مبرمج التطبيق</p>
+        <p class="dev-bio" data-i18n="dev.bio">طوّر هذا المشروع كمثال عملي على نقل الملفات المشفّر بين المتصفحات دون خادم وسيط: واجهة ويب خفيفة، بروتوكول تقطيع واستئناف، وخادم إشارات صغير لا يلمس بياناتك.</p>
+        <div class="dev-badges">
+          <span class="badge"><span class="icon i-globe" aria-hidden="true"></span> <span data-i18n="dev.b1">WebRTC</span></span>
+          <span class="badge"><span class="icon i-server" aria-hidden="true"></span> <span data-i18n="dev.b2">Node.js + Socket.io</span></span>
+          <span class="badge"><span class="icon i-lock" aria-hidden="true"></span> <span data-i18n="dev.b3">AES-256-GCM</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="brand"><span class="icon i-chat" aria-hidden="true"></span> <span data-i18n="brand">مشاركة مباشرة</span></p>
+      <p class="footer-note" data-i18n="footer.note">ملفاتك لا تعبر أي خادم. مشروع مفتوح المصدر لأغراض تعليمية — راجع الكود وشاركنا ملاحظاتك.</p>
+    </div>
+    <div>
+      <p class="footer-h" data-i18n="footer.app">التطبيق</p>
+      <a href="#app" data-i18n="footer.create">إنشاء غرفة</a><a href="#how" data-i18n="footer.how">كيف يعمل</a><a href="#features" data-i18n="footer.features">المميزات</a>
+    </div>
+    <div>
+      <p class="footer-h" data-i18n="footer.security">الأمان</p>
+      <a href="#security" data-i18n="footer.vuln">الثغرات والحلول</a><a href="#security" data-i18n="footer.aes">تشفير AES</a><a href="#dev" data-i18n="footer.dev">المطوّر</a>
+    </div>
+    <div>
+      <p class="footer-h" data-i18n="footer.review">للمراجعة</p>
+      <a href="/health" data-i18n="footer.health">حالة الخادم</a><a href="/config.js" data-i18n="footer.ice">إعدادات ICE</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span data-i18n="footer.rights">© 2026 — جميع الحقوق محفوظة للمبرمج.</span>
+    <span class="dev-credit"><span class="icon i-code" aria-hidden="true"></span> <span data-i18n="dev.credit">مبرمج التطبيق: زروقي أحمد معاذ</span></span>
+  </div>
+</footer>
+
+<noscript><p style="padding:16px;background:#fdecea;color:#b3261e;text-align:center">يتطلب هذا التطبيق JavaScript لنقل الملفات مباشرة بين المتصفحين.</p></noscript>
+
+<script src="/config.js"></script>
+<script src="/vendor/socket.io.js"></script>
+<script src="/js/i18n.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
